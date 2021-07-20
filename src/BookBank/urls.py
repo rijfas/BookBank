@@ -15,7 +15,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from bookmngmt import views
 
 urlpatterns = [
+    path('', views.site, name='site'),
+    path('home/', views.home, name='home'),
     path('admin/', admin.site.urls),
 ]
