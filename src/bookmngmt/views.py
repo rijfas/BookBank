@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Stock
 
 # Create your views here.
 
@@ -15,3 +16,12 @@ def site(request):
 	"title": title,
 	}
 	return render(request, "site.html",context)
+
+def list_item(request):
+	title = 'List of Books'
+	queryset = Stock.objects.all()
+	context = {
+		"title": title,
+		"queryset": queryset,
+	}
+	return render(request, "list_item.html", context)
