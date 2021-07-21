@@ -21,6 +21,6 @@ urlpatterns = [
     path('', views.site, name='site'),
     path('home/', views.home, name='home'),
     path('admin/', admin.site.urls),
-    path('list_item/', views.list_item, name='list_item'),
-    path('add_items/', views.add_items, name='add_items'),
+    path('list_items/', views.list_items, name='list_items'),
+    path('add_item/', views.add_item, name='add_item'),
 ]

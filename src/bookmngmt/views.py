@@ -18,22 +18,22 @@ def site(request):
 	}
 	return render(request, "site.html",context)
 
-def list_item(request):
+def list_items(request):
 	title = 'List of Books'
 	queryset = Stock.objects.all()
 	context = {
 		"title": title,
 		"queryset": queryset,
 	}
-	return render(request, "list_item.html", context)
+	return render(request, "list_items.html", context)
 
-def add_items(request):
+def add_item(request):
 	form = StockCreateForm(request.POST or None)
 	if form.is_valid():
 		form.save()
-		return redirect('/list_item')
+		return redirect('/list_items')
 	context = {
 		"form": form,
 		"title": "Add Book",
 	}
-	return render(request, "add_items.html", context)
+	return render(request, "add_item.html", context)
