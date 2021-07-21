@@ -4,9 +4,9 @@ from django.db.models.base import Model
 # Create your models here.
 
 class Stock(models.Model):
-    course = models.CharField(max_length=50, blank=True, null=True)
-    semester = models.CharField(max_length=20, blank=True, null=True)
-    book_name = models.CharField(max_length=50, blank=True, null=True)
+    course = models.CharField(max_length=50, blank=False, null=True)
+    semester = models.CharField(max_length=20, blank=False, null=True)
+    book_name = models.CharField(max_length=50, blank=False, null=True)
     book_count = models.IntegerField(default='0', blank=True, null=True)
     book_cover = models.ImageField(default='book_cover.jpg')
     index_page = models.ImageField(default='index_page.jpg')
