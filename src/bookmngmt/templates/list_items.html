@@ -65,16 +65,35 @@
 
 <main role="main" class="container">
   <div class="jumbotron">
-    <h1>{{title}}</h1>
-	    {% for instance in queryset %}
-        {{instance.course}},
-        {{instance.semester}},
-	    {{instance.book_name}},
-        {{instance.book_count}}<br>
-
-	    {% endfor %}    
+    <div class="header">{{header}}</div>
+    <div class="display_table">
+	    <table class='table'>
+        <thead>
+          <tr>
+            <th>SL NO.</th>
+            <th>COURSE</th>
+            <th>SEMESTER</th>
+            <th>BOOK NAME</th>
+            <th>COUNT LEFT</th>
+            <!--<th>BOOK COVER</th>
+            <th>INDEX PAGE</th>-->
+          </tr>
+        </thead>
+      {% for instance in queryset %}
+          <tr>
+            <td>{{forloop.counter}}</td>
+            <td>{{instance.course}}</td>
+            <td>{{instance.semester}}</td>
+            <td>{{instance.book_name}}</td>
+            <td>{{instance.book_count}}</td>
+            <!--<td>{{instance.book_cover}}</td>
+            <td>{{instance.index_page}}</td>-->
+          </tr>
+      {% endfor %}
+    </table>
+    </div>   
   </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
-      <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="/docs/4.4/dist/js/bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script></body>
+      <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="{% static 'js/bootstrap.bundle.min.js' %}" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script></body>
 </html>

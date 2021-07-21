@@ -19,10 +19,10 @@ def site(request):
 	return render(request, "site.html",context)
 
 def list_items(request):
-	title = 'List of Books'
+	header = 'List of Books'
 	queryset = Stock.objects.all()
 	context = {
-		"title": title,
+		"header": header,
 		"queryset": queryset,
 	}
 	return render(request, "list_items.html", context)
