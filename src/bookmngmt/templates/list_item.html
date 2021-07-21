@@ -1,18 +1,21 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Book List</title>
-</head>
-<body>
-	{{title}}<br>
-	{% for instance in queryset %}
-    {{instance.course}},
-    {{instance.semester}},
-	{{instance.book_name}},
-    {{instance.book_count}}<br>
+<link href="{% static 'css/stylesheet.css' %}" rel="stylesheet">
+    <head>
+	    <title>Book List</title>
+    </head>
+    <body>
+	    {{title}}<br>
+	    {% for instance in queryset %}
+        {{instance.course}},
+        {{instance.semester}},
+	    {{instance.book_name}},
+        {{instance.book_count}}<br>
 
-	{% endfor %}
+	    {% endfor %}
 	
 
-</body>
+    </body>
 </html>
