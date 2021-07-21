@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from .models import Stock
+from .forms import StockCreateForm
 
 # Create your views here.
 
@@ -25,3 +26,13 @@ def list_item(request):
 		"queryset": queryset,
 	}
 	return render(request, "list_item.html", context)
+
+def add_items(request):
+	form = StockCreateForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+	context = {
+		"form": form,
+		"title": "Add Book",
+	}
+	return render(request, "add_items.html", context)
