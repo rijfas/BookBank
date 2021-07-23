@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Stock
-from .forms import StockCreateForm
+from .forms import StockCreateForm, StockSearchForm
 
 # Create your views here.
 
@@ -20,11 +20,24 @@ def site(request):
 
 def list_items(request):
 	header = 'List of Books'
+	form = StockSearchForm(request.POST or None)
 	queryset = Stock.objects.all()
 	context = {
 		"header": header,
 		"queryset": queryset,
+		"form": form,
 	}
+	if request.method == 'POST':
+		queryset = Stock.objects.filter(
+			course__icontains=form['course'].value(),
+			semester__icontains=form['semester'].value(),
+			book_name__icontains=form['book_name'].value()
+			)
+		context = {
+					"form": form,
+					"header": header,
+					"queryset": queryset,
+		}
 	return render(request, "list_items.html", context)
 
 def add_item(request):
