@@ -30,3 +30,8 @@ class StockSearchForm(forms.ModelForm):
      model = Stock
      fields = ['course', 'semester', 'book_name']
 
+class StockUpdateForm(forms.ModelForm):
+	class Meta:
+		model = Stock
+		fields = ['course', 'semester', 'book_name','book_count','book_cover', 'index_page']
+
