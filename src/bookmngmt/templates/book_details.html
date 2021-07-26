@@ -10,7 +10,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v3.8.6">
-    <title>Book List</title>
+    <title>Book Details</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.4/examples/navbar-fixed/">
 
@@ -75,43 +75,27 @@
        </ul>
   {% endif %}
     <div class="header">{{header}}</div>
-
-    <form method='POST' action=''>{% csrf_token %}
-    {{form|crispy}}
-        <input type="submit" value='Search'/>
-    </form>
     <br>
 
-    <div class="display_table">
-	    <table class='table'>
-        <thead>
-          <tr>
-            <th>SL NO.</th>
-            <th>COURSE</th>
-            <th>SEMESTER</th>
-            <th>BOOK NAME</th>
-            <th>COUNT LEFT</th>
-            <th>LAST UPDATED</th>
-            <th>DELETE</th>
-            <!--<th>BOOK COVER</th>
-            <th>INDEX PAGE</th>-->
-          </tr>
-        </thead>
-      {% for instance in queryset %}
-          <tr>
-            <td>{{forloop.counter}}</td>
-            <td>{{instance.course}}</td>
-            <td>{{instance.semester}}</td>
-            <td><a href="{% url 'book_details' instance.id %}">{{instance.book_name}}</a></td>
-            <td><a href="{% url 'update_item' instance.id %}">{{instance.book_count}}</a></td>
-            <td>{{instance.last_updated}}</td>
-            <td><a href="{% url 'delete_item' instance.id %}">Delete</a></td>
-            <!--<td>{{instance.book_cover}}</td>
-            <td>{{instance.index_page}}</td>-->
-          </tr>
-      {% endfor %}
-    </table>
-    </div>   
+    <a href="{% url 'order_book' queryset.id %}"><div class='btn btn-danger'>ORDER THIS BOOK</div></a>
+    <a href="{% url 'add_book' queryset.id %}"><div class='btn btn-primary'>ADD COUNT</div></a>
+        <br><br>
+        <div class="display_table">
+          <table class='table'>
+                  <tr>
+                    <th>BOOK NAME</th>
+                    <th>COUNT LEFT</th>
+                    <th>LAST UPDATED</th>
+                    <th>ALERT LEVEL</th>
+                  </tr>
+                  <tr>
+                    <td>{{queryset.book_name}}</td>
+                    <td>{{queryset.book_count}}</td>
+                    <td>{{queryset.last_updated}}</td>
+                    <td>{{queryset.alert_level}}</td>
+                  </tr>
+          </table>
+        </div>  
   </div>
 </main>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

@@ -36,3 +36,14 @@ class StockUpdateForm(forms.ModelForm):
 		model = Stock
 		fields = ['course', 'semester', 'book_name','book_count','book_cover', 'index_page']
 
+class OrderForm(forms.ModelForm):
+	class Meta:
+		model = Stock
+		fields = ['order_count', 'order_to']
+
+
+class AddForm(forms.ModelForm):
+	class Meta:
+		model = Stock
+		fields = ['add_count']
+

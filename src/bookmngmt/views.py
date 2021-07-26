@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 import csv
 from .models import Stock
-from .forms import StockCreateForm, StockSearchForm, StockUpdateForm
+from .forms import StockCreateForm, StockSearchForm, StockUpdateForm, OrderForm, AddForm
 
 # Create your views here.
 
@@ -72,7 +72,7 @@ def update_item(request, pk):
 		form = StockUpdateForm(request.POST, instance=queryset)
 		if form.is_valid():
 			form.save()
-			messages.success(request, 'Successfully Saved')
+			messages.success(request, 'Successfully Updated')
 			return redirect('/list_items')
 	context = {
 		'form':form
@@ -90,3 +90,53 @@ def delete_item(request, pk):
 		'book_name':book_name
 	}
 	return render(request, 'delete_item.html', context)
+
+def book_details(request, pk):
+	header = 'Book Details'
+	queryset = Stock.objects.get(id=pk)
+	context = {
+		"header":header,
+		"queryset": queryset,
+	}
+	return render(request, "book_details.html", context)
+
+def order_book(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = OrderForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.book_count -= instance.order_count
+		messages.success(request, "Ordered SUCCESSFULLY. " + str(instance.book_count) + " " + str(instance.book_name) + " now left in Store")
+		instance.save()
+
+		return redirect('/book_details/'+str(instance.id))
+		# return HttpResponseRedirect(instance.get_absolute_url())
+
+	context = {
+		"title": 'Order ' + str(queryset.book_name),
+		"queryset": queryset,
+		"form": form,
+		"username": 'Order By: ' + str(request.user),
+	}
+	return render(request, "add_item.html", context)
+
+
+
+def add_book(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = AddForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.book_count += instance.add_count
+		messages.success(request, "Added SUCCESSFULLY. " + str(instance.book_count) + " " + str(instance.book_name)+"s now in Store")
+		instance.save()
+
+		return redirect('/book_details/'+str(instance.id))
+		# return HttpResponseRedirect(instance.get_absolute_url())
+	context = {
+			"title": 'Add ' + str(queryset.book_name),
+			"instance": queryset,
+			"form": form,
+			"username": 'Add By: ' + str(request.user),
+		}
+	return render(request, "add_item.html", context)
