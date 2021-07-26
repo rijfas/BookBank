@@ -1,4 +1,7 @@
 from django.shortcuts import render, redirect
+from django.contrib import messages
+from django.http import HttpResponse
+import csv
 from .models import Stock
 from .forms import StockCreateForm, StockSearchForm, StockUpdateForm
 
@@ -29,7 +32,7 @@ def list_items(request):
 	}
 	if request.method == 'POST':
 		queryset = Stock.objects.filter(
-			course__icontains=form['course'].value(),
+			#course__icontains=form['course'].value(),
 			semester__icontains=form['semester'].value(),
 			book_name__icontains=form['book_name'].value()
 			)
@@ -38,12 +41,23 @@ def list_items(request):
 					"header": header,
 					"queryset": queryset,
 		}
+		if form['export_to_CSV'].value() == True:
+			response = HttpResponse(content_type='text/csv')
+			response['Content-Disposition'] = 'attachment; filename="List of stock.csv"'
+			writer = csv.writer(response)
+			writer.writerow(['COURSE', 'SEMESTER', 'BOOK_NAME'])
+			instance = queryset
+			for stock in instance:
+				writer.writerow([stock.course, stock.semester, stock.book_name])
+			return response
+
 	return render(request, "list_items.html", context)
 
 def add_item(request):
 	form = StockCreateForm(request.POST or None)
 	if form.is_valid():
 		form.save()
+		messages.success(request, 'Successfully Saved')
 		return redirect('/list_items')
 	context = {
 		"form": form,
@@ -58,6 +72,7 @@ def update_item(request, pk):
 		form = StockUpdateForm(request.POST, instance=queryset)
 		if form.is_valid():
 			form.save()
+			messages.success(request, 'Successfully Saved')
 			return redirect('/list_items')
 	context = {
 		'form':form
@@ -69,6 +84,7 @@ def delete_item(request, pk):
 	book_name = Stock.objects.get(id=pk)
 	if request.method == 'POST':
 		queryset.delete()
+		messages.success(request, 'Successfully Deleted')
 		return redirect('/list_items')
 	context = {
 		'book_name':book_name

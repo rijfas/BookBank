@@ -10,12 +10,12 @@ class StockCreateForm(forms.ModelForm):
         course = self.cleaned_data.get('course')
         if not course:
             raise forms.ValidationError('This field is required')
-            return course
+        return course
     def clean_semester(self):
         semester = self.cleaned_data.get('semester')
         if not semester:
             raise forms.ValidationError('This field is required')
-            return semester
+        return semester
     def clean_book_name(self):
         book_name = self.cleaned_data.get('book_name')
         if not book_name:
@@ -26,9 +26,10 @@ class StockCreateForm(forms.ModelForm):
         return book_name
 
 class StockSearchForm(forms.ModelForm):
-   class Meta:
-     model = Stock
-     fields = ['course', 'semester', 'book_name']
+    export_to_CSV = forms.BooleanField(required=False)
+    class Meta:
+        model = Stock
+        fields = ['course', 'semester', 'book_name']
 
 class StockUpdateForm(forms.ModelForm):
 	class Meta:

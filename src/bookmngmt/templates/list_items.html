@@ -65,7 +65,15 @@
 </nav>
 
 <main role="main" class="container">
+  
   <div class="jumbotron">
+  {% if messages %}
+        <ul class="messages">
+               {% for message in messages %}
+                     <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+               {% endfor %}
+       </ul>
+  {% endif %}
     <div class="header">{{header}}</div>
 
     <form method='POST' action=''>{% csrf_token %}
@@ -83,6 +91,7 @@
             <th>SEMESTER</th>
             <th>BOOK NAME</th>
             <th>COUNT LEFT</th>
+            <th>LAST UPDATED</th>
             <th>DELETE</th>
             <!--<th>BOOK COVER</th>
             <th>INDEX PAGE</th>-->
@@ -95,6 +104,7 @@
             <td>{{instance.semester}}</td>
             <td><a href="{% url 'update_item' instance.id %}">{{instance.book_name}}</a></td>
             <td>{{instance.book_count}}</td>
+            <td>{{instance.last_updated}}</td>
             <td><a href="{% url 'delete_item' instance.id %}">Delete</a></td>
             <!--<td>{{instance.book_cover}}</td>
             <td>{{instance.index_page}}</td>-->
