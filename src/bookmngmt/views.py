@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 import csv
 from .models import Stock
-from .forms import StockCreateForm, StockSearchForm, StockUpdateForm, OrderForm, AddForm
+from .forms import *
 
 # Create your views here.
 
@@ -53,6 +54,7 @@ def list_items(request):
 
 	return render(request, "list_items.html", context)
 
+@login_required
 def add_item(request):
 	form = StockCreateForm(request.POST or None)
 	if form.is_valid():
@@ -65,6 +67,7 @@ def add_item(request):
 	}
 	return render(request, "add_item.html", context)
 
+@login_required
 def update_item(request, pk):
 	queryset = Stock.objects.get(id=pk)
 	form = StockUpdateForm(instance=queryset)
@@ -79,6 +82,7 @@ def update_item(request, pk):
 	}
 	return render(request, 'add_item.html', context)
 
+@login_required
 def delete_item(request, pk):
 	queryset = Stock.objects.get(id=pk)
 	book_name = Stock.objects.get(id=pk)
@@ -120,8 +124,7 @@ def order_book(request, pk):
 	}
 	return render(request, "add_item.html", context)
 
-
-
+@login_required
 def add_book(request, pk):
 	queryset = Stock.objects.get(id=pk)
 	form = AddForm(request.POST or None, instance=queryset)
@@ -138,5 +141,21 @@ def add_book(request, pk):
 			"instance": queryset,
 			"form": form,
 			"username": 'Add By: ' + str(request.user),
+		}
+	return render(request, "add_item.html", context)
+
+@login_required
+def alert_level(request, pk):
+	queryset = Stock.objects.get(id=pk)
+	form = AlertLevelForm(request.POST or None, instance=queryset)
+	if form.is_valid():
+		instance = form.save(commit=False)
+		instance.save()
+		messages.success(request, "Alert level for " + str(instance.book_name) + " is updated to " + str(instance.alert_level))
+
+		return redirect("/list_items")
+	context = {
+			"instance": queryset,
+			"form": form,
 		}
 	return render(request, "add_item.html", context)

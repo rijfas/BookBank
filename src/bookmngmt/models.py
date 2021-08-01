@@ -27,7 +27,7 @@ class Stock(models.Model):
     order_by = models.CharField(max_length=50, blank=True, null=True)
     order_to = models.CharField(max_length=50, blank=True, null=True)
     student_details = models.TextField()
-    phone_number = models.CharField(max_length=50, blank=True, null=True)
+    phone_number = models.CharField(max_length=50)
     alert_level = models.IntegerField(default='0', blank=True, null=True)
     last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
     

@@ -39,7 +39,7 @@ class StockUpdateForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
 	class Meta:
 		model = Stock
-		fields = ['order_count', 'order_to']
+		fields = ['order_count', 'order_by', 'student_details', 'phone_number']
 
 
 class AddForm(forms.ModelForm):
@@ -47,3 +47,7 @@ class AddForm(forms.ModelForm):
 		model = Stock
 		fields = ['add_count']
 
+class AlertLevelForm(forms.ModelForm):
+	class Meta:
+		model = Stock
+		fields = ['alert_level']
