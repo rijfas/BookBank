@@ -1,6 +1,6 @@
 from django import forms
 from django.forms import fields
-from .models import Stock
+from .models import Donation, Stock
 
 class StockCreateForm(forms.ModelForm):
     class Meta:
@@ -51,3 +51,8 @@ class AlertLevelForm(forms.ModelForm):
 	class Meta:
 		model = Stock
 		fields = ['alert_level']
+
+class DonationForm(forms.ModelForm):
+	class Meta:
+		model = Donation
+		fields = ['donate_book', 'donate_count', 'name', 'department', 'year', 'mobile']

@@ -63,7 +63,7 @@ def add_item(request):
 		return redirect('/list_items')
 	context = {
 		"form": form,
-		"title": "Add Book",
+		"header": "Add Book",
 	}
 	return render(request, "add_item.html", context)
 
@@ -158,4 +158,16 @@ def alert_level(request, pk):
 			"instance": queryset,
 			"form": form,
 		}
+	return render(request, "add_item.html", context)
+
+def donate_book(request):
+	form = DonationForm(request.POST or None)
+	if form.is_valid():
+		form.save()
+		messages.success(request, 'Successfully Donated')
+		return redirect('/list_items')
+	context = {
+		"form": form,
+		"header": "Donate Book",
+	}
 	return render(request, "add_item.html", context)

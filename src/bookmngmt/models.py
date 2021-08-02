@@ -9,6 +9,10 @@ semester_choice = (
         ('PG 3', 'PG 3'),('PG 4', 'PG 4'),
 	)
 
+year_choice = ( ('UG 1', 'UG 1'),('UG 2', 'UG 2'),('UG 3', 'UG 3'),('PG 1', 'PG 1'),('PG 2', 'PG 2'),
+                ('Ex', 'Ex-Farookian'),('Faculty', 'Faculty'),('Other', 'Other'),
+              )
+
 class Course(models.Model):
 	name = models.CharField(max_length=50, blank=True, null=True, default=None)
 	def __str__(self):
@@ -34,3 +38,14 @@ class Stock(models.Model):
     def __str__(self):
         return self.book_name
 
+class Donation(models.Model):
+    donate_book = models.CharField(max_length=50, blank=True, null=True)
+    donate_count = models.IntegerField(default='1', blank=True, null=True)
+    name = models.CharField(max_length=30, blank=True, null=True)
+    department = models.CharField(max_length=50, blank=True, null=True)
+    year = models.CharField(max_length=20, blank=True, null=True, choices=year_choice)
+    mobile = models.CharField(max_length=20, blank=True, null=True)
+    donate_time = models.DateTimeField(auto_now_add=False, auto_now=True)
+
+    def __str__(self):
+        return self.name
