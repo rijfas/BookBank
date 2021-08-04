@@ -3,7 +3,7 @@ from django.contrib import messages
 from django.http import HttpResponse
 from django.contrib.auth.decorators import login_required
 import csv
-from .models import Stock
+from .models import Stock, StockHistory
 from .forms import *
 
 # Create your views here.
@@ -112,6 +112,16 @@ def order_book(request, pk):
 		instance.book_count -= instance.order_count
 		messages.success(request, "Ordered SUCCESSFULLY. " + str(instance.book_count) + " " + str(instance.book_name) + " now left in Store")
 		instance.save()
+		issue_history = StockHistory(
+			id = instance.id,
+			last_updated = instance.last_updated,
+			course_id = instance.course_id,
+			book_name = instance.book_name,
+			book_count = instance.book_count,
+			order_by = instance.order_by,
+			phone_number = instance.phone_number,
+			order_count = instance.order_count)
+		issue_history.save()
 
 		return redirect('/book_details/'+str(instance.id))
 		# return HttpResponseRedirect(instance.get_absolute_url())
@@ -171,3 +181,13 @@ def donate_book(request):
 		"header": "Donate Book",
 	}
 	return render(request, "add_item.html", context)
+
+@login_required
+def list_history(request):
+	header = 'ORDER HISTORY'
+	queryset = StockHistory.objects.all()
+	context = {
+		"header": header,
+		"queryset": queryset,
+	}
+	return render(request, "list_history.html",context)

@@ -38,6 +38,26 @@ class Stock(models.Model):
     def __str__(self):
         return self.book_name
 
+class StockHistory(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    semester = models.CharField(max_length=20, blank=True, null=True, choices=semester_choice)
+    book_name = models.CharField(max_length=50, blank=True, null=True)
+    book_count = models.IntegerField(default='0', blank=True, null=True)
+    book_cover = models.ImageField(default='book_cover.jpg')
+    index_page = models.ImageField(default='index_page.jpg')
+    add_count = models.IntegerField(default='0', blank=True, null=True)
+    add_by = models.CharField(max_length=50, blank=True, null=True)
+    order_count = models.IntegerField(default='0', blank=True, null=True)
+    order_by = models.CharField(max_length=50, blank=True, null=True)
+    order_to = models.CharField(max_length=50, blank=True, null=True)
+    student_details = models.TextField()
+    phone_number = models.CharField(max_length=50)
+    alert_level = models.IntegerField(default='0', blank=True, null=True)
+    last_updated = models.DateTimeField(auto_now_add=False, auto_now=True)
+    
+    def __str__(self):
+        return self.book_name
+
 class Donation(models.Model):
     donate_book = models.CharField(max_length=50, blank=True, null=True)
     donate_count = models.IntegerField(default='1', blank=True, null=True)
